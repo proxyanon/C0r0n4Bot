@@ -10,10 +10,13 @@ class Chatbot():
         self.name = name
 
     def send(self, text):
-        #if msg == 'help':
-            
-        if text == 'cases':
+        if text.upper() == 'CASOS':
             return dic['cases']
-        #if msg == 'deaths':
+        if text.upper() == 'MORTES':
+            return dic['deaths']
+        if text.upper() == 'CURADOS':
+            return dic['recovered']
+        if text.upper() == 'CRITICOS':
+            return dic['critical']
 
 
