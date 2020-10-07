@@ -1,7 +1,8 @@
 import telepot
 from Chatbot import Chatbot
 
-telegram = telepot.Bot('1244173096:AAERbU6DN31LgxX2HKK961Os1NetLKCy-Po')
+keySecret = '1244173096:AAERbU6DN31LgxX2HKK961Os1NetLKCy-Po'
+telegram = telepot.Bot(keySecret)
 
 bot = Chatbot('C0r0n4Bot')
 
