@@ -1,0 +1,61 @@
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+
+namespace Managers
+{
+    public class ScenesManager : MonoBehaviour
+    {
+        public static ScenesManager instance = null;
+
+        private Animator _animator;
+        private static readonly int Start = Animator.StringToHash("Start");
+
+        private bool _isTransitionEnd;
+
+        private void Awake()
+        {
+            if (instance == null) {
+                instance = this;
+            }
+            else {
+                if (instance == this) return;
+                instance = this;
+            }
+
+            _animator = GetComponent<Animator>();
+        }
+
+        #region Animator Calls
+
+        public void AnimationTransitionEnds() {
+            _isTransitionEnd = true;
+        }
+
+        #endregion
+        
+        public void LoadScene(string sceneName)
+        {
+            StartCoroutine(LoadLevel(sceneName));
+        }
+
+        private IEnumerator LoadLevel(string sceneName) {
+            _animator.SetTrigger(Start);
+            
+            var asyncOperation = SceneManager.LoadSceneAsync(sceneName);
+            asyncOperation.allowSceneActivation = false;
+            
+            while (!asyncOperation.isDone) {
+                if (asyncOperation.progress >= 0.9f) {
+                    if (_isTransitionEnd) {
+                        asyncOperation.allowSceneActivation = true;
+                    }
+                }
+                
+                yield return null;
+            }
+        }
+    }
+}
